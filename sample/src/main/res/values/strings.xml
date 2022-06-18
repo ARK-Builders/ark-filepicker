@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Sample</string>
+    <string name="file_picker_title">Pick favorite folder</string>
+</resources>

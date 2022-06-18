@@ -1,0 +1,11 @@
+<resources>
+    <string name="ark_file_picker_internal_storage">Internal</string>
+    <string name="ark_file_picker_cancel">Cancel</string>
+    <string name="ark_file_picker_pick">Pick</string>
+    <string name="ark_file_picker_pick_title">Pick</string>
+    <string name="ark_file_picker_access_denied">Access Denied</string>
+    <plurals name="ark_file_picker_items">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
+</resources>
