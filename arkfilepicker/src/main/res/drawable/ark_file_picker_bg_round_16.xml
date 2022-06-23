@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetTop="20dp"
+    android:insetBottom="20dp">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/ark_file_picker_white" />
+        <corners android:radius="16dp" />
+    </shape>
+</inset>

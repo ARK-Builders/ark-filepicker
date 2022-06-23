@@ -1,0 +1,6 @@
+<resources>
+    <style name="ARKFilePickerFadeAnimation">
+        <item name="android:windowEnterAnimation">@anim/ark_file_picker_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/ark_file_pickerfade_out</item>
+    </style>
+</resources>
