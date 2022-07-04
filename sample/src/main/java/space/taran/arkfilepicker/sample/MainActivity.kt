@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Path picked $path", Toast.LENGTH_SHORT).show()
         }
         supportFragmentManager.onArkFolderChange(this) { path ->
-            Toast.makeText(this, "Folder changed $path", Toast.LENGTH_SHORT).show()
+
         }
 
         findViewById<MaterialButton>(R.id.btn_open).setOnClickListener {
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             ContextCompat.checkSelfPermission(
                 this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
         }
     }
