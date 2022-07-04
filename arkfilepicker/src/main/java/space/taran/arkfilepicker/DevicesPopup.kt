@@ -27,11 +27,7 @@ internal class DevicesPopup(
         popupWindow.apply {
             contentView = layout
             width = LinearLayout.LayoutParams.WRAP_CONTENT
-            height =
-                View.MeasureSpec.makeMeasureSpec(
-                    layout.measuredHeight,
-                    View.MeasureSpec.UNSPECIFIED
-                )
+            height = LinearLayout.LayoutParams.WRAP_CONTENT
             isFocusable = true
             animationStyle = R.style.ARKFilePickerFadeAnimation
             setBackgroundDrawable(ResourcesCompat.getDrawable(
