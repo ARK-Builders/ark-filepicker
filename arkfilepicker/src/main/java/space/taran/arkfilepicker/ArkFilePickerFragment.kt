@@ -26,7 +26,7 @@ import space.taran.arkfilepicker.databinding.ArkFilePickerFragmentBinding
 import java.nio.file.Path
 import kotlin.io.path.Path
 
-class ArkFilePickerFragment : DialogFragment() {
+open class ArkFilePickerFragment : DialogFragment() {
     var titleStringId by args<Int>()
     var pickButtonStringId by args<Int>()
     var cancelButtonStringId by args<Int>()
@@ -36,6 +36,7 @@ class ArkFilePickerFragment : DialogFragment() {
     var accessDeniedStringId by args<Int>()
     var mode by args<Int>()
     var initialPath by args<String>()
+    var pathPickedRequestKey by args<String>()
 
     val binding get() = _binding!!
 
@@ -48,6 +49,22 @@ class ArkFilePickerFragment : DialogFragment() {
         )
     }
     private var filesAdapter: FilesRVAdapter? = null
+
+    open fun onFolderChanged(folder: Path) {}
+
+    fun setup(config: ArkFilePickerConfig): ArkFilePickerFragment {
+        titleStringId = config.titleStringId
+        pickButtonStringId = config.pickButtonStringId
+        cancelButtonStringId = config.cancelButtonStringId
+        internalStorageStringId = config.internalStorageStringId
+        accessDeniedStringId = config.accessDeniedStringId
+        itemsPluralId = config.itemsPluralId
+        themeId = config.themeId
+        initialPath = config.initialPath?.toString()
+        mode = config.mode.ordinal
+        pathPickedRequestKey = config.pathPickedRequestKey
+        return this
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -153,7 +170,8 @@ class ArkFilePickerFragment : DialogFragment() {
             accessDeniedStringId!!,
             Toast.LENGTH_SHORT
         ).show()
-        is SideEffect.NotifyFolderChanged ->
+        is SideEffect.NotifyFolderChanged -> {
+            onFolderChanged(effect.folder)
             setFragmentResult(
                 FOLDER_CHANGED_REQUEST_KEY,
                 Bundle().apply
@@ -163,9 +181,10 @@ class ArkFilePickerFragment : DialogFragment() {
                         effect.folder.toString()
                     )
                 })
+        }
         is SideEffect.NotifyPathPicked ->
             setFragmentResult(
-                PATH_PICKED_REQUEST_KEY,
+                pathPickedRequestKey ?: PATH_PICKED_REQUEST_KEY,
                 Bundle().apply
                 {
                     putString(
@@ -248,15 +267,7 @@ class ArkFilePickerFragment : DialogFragment() {
             "arkFilePickerFolderChangedFolderKey"
 
         fun newInstance(config: ArkFilePickerConfig) = ArkFilePickerFragment().apply {
-            titleStringId = config.titleStringId
-            pickButtonStringId = config.pickButtonStringId
-            cancelButtonStringId = config.cancelButtonStringId
-            internalStorageStringId = config.internalStorageStringId
-            accessDeniedStringId = config.accessDeniedStringId
-            itemsPluralId = config.itemsPluralId
-            themeId = config.themeId
-            initialPath = config.initialPath?.toString()
-            mode = config.mode.ordinal
+            setup(config)
         }
 
         private const val DIALOG_WIDTH = 300f
@@ -266,10 +277,11 @@ class ArkFilePickerFragment : DialogFragment() {
 
 fun FragmentManager.onArkPathPicked(
     lifecycleOwner: LifecycleOwner,
-    listener: (Path) -> Unit
+    customRequestKey: String? = null,
+    listener: (Path) -> Unit,
 ) {
     setFragmentResultListener(
-        ArkFilePickerFragment.PATH_PICKED_REQUEST_KEY,
+        customRequestKey ?: ArkFilePickerFragment.PATH_PICKED_REQUEST_KEY,
         lifecycleOwner
     ) { _, bundle ->
         listener(
