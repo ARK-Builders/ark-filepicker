@@ -23,4 +23,5 @@ class ArkFilePickerConfig(
 
     val initialPath: Path? = null,
     val mode: ArkFilePickerMode = ArkFilePickerMode.FOLDER,
+    val pathPickedRequestKey: String? = null,
 )
