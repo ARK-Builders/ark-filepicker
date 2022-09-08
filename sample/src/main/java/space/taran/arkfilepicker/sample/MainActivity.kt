@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
-import space.taran.arkfilepicker.ArkFilePickerFragment
-import space.taran.arkfilepicker.ArkFilePickerMode
+import space.taran.arkfilepicker.presentation.filepicker.ArkFilePickerMode
 import space.taran.arkfilepicker.ArkFilePickerConfig
-import space.taran.arkfilepicker.onArkFolderChange
-import space.taran.arkfilepicker.onArkPathPicked
+import space.taran.arkfilepicker.presentation.filepicker.ArkFilePickerFragment
+import space.taran.arkfilepicker.presentation.onArkFolderChange
+import space.taran.arkfilepicker.presentation.onArkPathPicked
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getFilePickerConfig() = ArkFilePickerConfig(
         mode = ArkFilePickerMode.FOLDER,
-        titleStringId = R.string.file_picker_title
+        titleStringId = R.string.file_picker_title,
+        showRoots = true
     )
 
     private fun resolvePermissions() {
