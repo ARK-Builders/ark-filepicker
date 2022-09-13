@@ -3,6 +3,8 @@ package space.taran.arkfilepicker
 import android.content.Context
 import android.util.TypedValue
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import java.nio.file.Path
 import java.text.DecimalFormat
 import kotlin.io.path.Path
@@ -64,4 +66,15 @@ internal fun Long.formatSize(): String {
     val units = arrayOf("B", "kB", "MB", "GB", "TB")
     val digitGroups = (Math.log10(toDouble()) / Math.log10(1024.0)).toInt()
     return "${DecimalFormat("#,##0.#").format(this / 1024.0.pow(digitGroups.toDouble()))} ${units[digitGroups]}"
+}
+
+internal fun ViewPager2.setDragSensitivity(f: Int) {
+    val recyclerViewField = ViewPager2::class.java.getDeclaredField("mRecyclerView")
+    recyclerViewField.isAccessible = true
+    val recyclerView = recyclerViewField.get(this) as RecyclerView
+
+    val touchSlopField = RecyclerView::class.java.getDeclaredField("mTouchSlop")
+    touchSlopField.isAccessible = true
+    val touchSlop = touchSlopField.get(recyclerView) as Int
+    touchSlopField.set(recyclerView, touchSlop*f)
 }

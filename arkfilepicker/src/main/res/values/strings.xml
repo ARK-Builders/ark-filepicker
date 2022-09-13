@@ -4,8 +4,15 @@
     <string name="ark_file_picker_pick">Pick</string>
     <string name="ark_file_picker_pick_title">Pick</string>
     <string name="ark_file_picker_access_denied">Access Denied</string>
+    <string name="ark_file_picker_item_device_type">[device]</string>
+    <string name="ark_file_picker_item_favorite_type">[favorite]</string>
+    <string name="ark_file_picker_item_root_type">[root]</string>
     <plurals name="ark_file_picker_items">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
     </plurals>
+    <array name="ark_file_picker_tabs">
+        <item>Roots</item>
+        <item>Files</item>
+    </array>
 </resources>

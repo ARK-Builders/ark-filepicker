@@ -1,4 +1,4 @@
-package space.taran.arkfilepicker
+package space.taran.arkfilepicker.presentation
 
 import android.content.Context
 import android.graphics.Rect
@@ -8,6 +8,10 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import space.taran.arkfilepicker.INTERNAL_STORAGE
+import space.taran.arkfilepicker.R
+import space.taran.arkfilepicker.dpToPx
+import space.taran.arkfilepicker.presentation.filepicker.ArkFilePickerViewModel
 import java.nio.file.Path
 
 internal class DevicesPopup(
