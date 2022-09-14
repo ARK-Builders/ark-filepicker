@@ -1,19 +1,16 @@
 package space.taran.arkfilepicker.presentation.filepicker
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import space.taran.arkfilepicker.ArkFilePicker
 import space.taran.arkfilepicker.FileUtils
 import space.taran.arkfilepicker.listChildren
-import space.taran.arkfilepicker.roots.FoldersRepo
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 
@@ -39,26 +36,13 @@ internal sealed class FilePickerSideEffect {
 }
 
 internal class ArkFilePickerViewModel(
-    private val foldersRepo: FoldersRepo,
     private val fileUtils: FileUtils,
     private val mode: ArkFilePickerMode,
     private val initialPath: Path?
-): ViewModel(), ContainerHost<FilePickerState, FilePickerSideEffect> {
+) : ViewModel(), ContainerHost<FilePickerState, FilePickerSideEffect> {
 
     override val container: Container<FilePickerState, FilePickerSideEffect> =
         container(initialState())
-
-    init {
-        viewModelScope.launch {
-            val rootsWithFavs = foldersRepo.query()
-            Log.d("FSFS", "$rootsWithFavs")
-            intent {
-                reduce {
-                    state.copy(rootsWithFavs = rootsWithFavs)
-                }
-            }
-        }
-    }
 
     fun onItemClick(path: Path) = intent {
         if (path.isDirectory()) {
@@ -128,7 +112,7 @@ internal class ArkFilePickerViewModel(
             selectedDevicePos,
             currentPath,
             formatChildren(currentPath),
-            emptyMap()
+            ArkFilePicker.foldersRepo.folders
         )
     }
 
@@ -146,12 +130,11 @@ internal class ArkFilePickerViewModel(
 }
 
 internal class ArkFilePickerViewModelFactory(
-    private val foldersRepo: FoldersRepo,
     private val fileUtils: FileUtils,
     private val mode: ArkFilePickerMode,
     private val initialPath: Path?
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        ArkFilePickerViewModel(foldersRepo, fileUtils, mode, initialPath) as T
+        ArkFilePickerViewModel(fileUtils, mode, initialPath) as T
 }

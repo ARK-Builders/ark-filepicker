@@ -42,7 +42,6 @@ import space.taran.arkfilepicker.iconForExtension
 import space.taran.arkfilepicker.listChildren
 import space.taran.arkfilepicker.presentation.args
 import space.taran.arkfilepicker.presentation.folderstree.FolderTreeView
-import space.taran.arkfilepicker.roots.FoldersRepo
 import space.taran.arkfilepicker.setDragSensitivity
 import java.lang.Exception
 import java.nio.file.Path
@@ -70,7 +69,6 @@ open class ArkFilePickerFragment :
     private val binding by viewBinding(ArkFilePickerHostFragmentBinding::bind)
     private val viewModel by viewModels<ArkFilePickerViewModel> {
         ArkFilePickerViewModelFactory(
-            FoldersRepo(requireContext().applicationContext),
             FileUtils(requireContext().applicationContext),
             ArkFilePickerMode.values()[mode!!],
             initialPath?.let { Path(it) }
