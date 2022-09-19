@@ -15,9 +15,9 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -27,6 +27,7 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.viewmodel.observe
 import space.taran.arkfilepicker.ArkFilePickerConfig
 import space.taran.arkfilepicker.presentation.DevicesPopup
@@ -42,7 +43,7 @@ import space.taran.arkfilepicker.iconForExtension
 import space.taran.arkfilepicker.listChildren
 import space.taran.arkfilepicker.presentation.args
 import space.taran.arkfilepicker.presentation.folderstree.FolderTreeView
-import space.taran.arkfilepicker.roots.FoldersRepo
+import space.taran.arkfilepicker.folders.FoldersRepo
 import space.taran.arkfilepicker.setDragSensitivity
 import java.lang.Exception
 import java.nio.file.Path
@@ -70,7 +71,6 @@ open class ArkFilePickerFragment :
     private val binding by viewBinding(ArkFilePickerHostFragmentBinding::bind)
     private val viewModel by viewModels<ArkFilePickerViewModel> {
         ArkFilePickerViewModelFactory(
-            FoldersRepo(requireContext().applicationContext),
             FileUtils(requireContext().applicationContext),
             ArkFilePickerMode.values()[mode!!],
             initialPath?.let { Path(it) }
@@ -85,6 +85,9 @@ open class ArkFilePickerFragment :
         super.onViewCreated(view, savedInstanceState)
         initUI()
         initBackButtonListener()
+        lifecycleScope.launch {
+            FoldersRepo.instance.addRoot(Path("/storage/emulated/0/Ark"))
+        }
         viewModel.observe(this, ::render, ::handleSideEffect)
     }
 

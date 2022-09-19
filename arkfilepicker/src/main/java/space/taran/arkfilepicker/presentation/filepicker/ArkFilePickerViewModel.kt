@@ -13,7 +13,7 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import space.taran.arkfilepicker.FileUtils
 import space.taran.arkfilepicker.listChildren
-import space.taran.arkfilepicker.roots.FoldersRepo
+import space.taran.arkfilepicker.folders.FoldersRepo
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 
@@ -39,18 +39,19 @@ internal sealed class FilePickerSideEffect {
 }
 
 internal class ArkFilePickerViewModel(
-    private val foldersRepo: FoldersRepo,
     private val fileUtils: FileUtils,
     private val mode: ArkFilePickerMode,
     private val initialPath: Path?
 ): ViewModel(), ContainerHost<FilePickerState, FilePickerSideEffect> {
+
+    private val foldersRepo = FoldersRepo.instance
 
     override val container: Container<FilePickerState, FilePickerSideEffect> =
         container(initialState())
 
     init {
         viewModelScope.launch {
-            val rootsWithFavs = foldersRepo.query()
+            val rootsWithFavs = foldersRepo.provideFolders()
             Log.d("FSFS", "$rootsWithFavs")
             intent {
                 reduce {
@@ -146,12 +147,11 @@ internal class ArkFilePickerViewModel(
 }
 
 internal class ArkFilePickerViewModelFactory(
-    private val foldersRepo: FoldersRepo,
     private val fileUtils: FileUtils,
     private val mode: ArkFilePickerMode,
     private val initialPath: Path?
 ): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        ArkFilePickerViewModel(foldersRepo, fileUtils, mode, initialPath) as T
+        ArkFilePickerViewModel(fileUtils, mode, initialPath) as T
 }
