@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ARKFilePicker">
+        android:theme="@style/Theme.ARKFilePicker"
+        android:name=".App">
         <activity
             android:name=".MainActivity"
             android:exported="true">

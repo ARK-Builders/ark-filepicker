@@ -12,6 +12,7 @@ import kotlin.io.path.isHidden
 import kotlin.io.path.listDirectoryEntries
 import kotlin.math.pow
 
+data class PartialResult<S, F>(val succeeded: S, val failed: F)
 
 internal val ROOT_PATH: Path = Path("/")
 
