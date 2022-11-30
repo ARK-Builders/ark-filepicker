@@ -19,7 +19,7 @@ internal class DeviceFolderItem(
         get() = node.path.hashCode().toLong()
         set(value) {}
 
-    private var isExpanded = false
+    private var isExpanded = node.isExpanded
     private lateinit var animator: ValueAnimator
 
     override fun createBinding(
@@ -40,10 +40,10 @@ internal class DeviceFolderItem(
         binding: ArkFilePickerItemDeviceBinding,
         payloads: List<Any>
     ) = with(binding) {
-        ivChevron.rotation = if (node.isExpanded) 90f else 0f
+        ivChevron.rotation = if (isExpanded) 90f else 0f
         tvDeviceName.text = node.name
         root.setOnClickListener {
-            animateExpanded(!node.isExpanded)
+            animateExpanded(!isExpanded)
             onExpandClick(node)
         }
     }
@@ -58,7 +58,6 @@ internal class DeviceFolderItem(
         }
 
         isExpanded = expanded
-        node.isExpanded = expanded
     }
 }
 
@@ -75,7 +74,7 @@ internal class RootFolderItem(
         set(value) {}
 
     private var chevron: ImageView? = null
-    private var isExpanded = false
+    private var isExpanded = node.isExpanded
     private val animator = ValueAnimator().apply {
         duration = 500L
         addUpdateListener {
@@ -94,11 +93,11 @@ internal class RootFolderItem(
         payloads: List<Any>
     ) = with(binding) {
         this@RootFolderItem.chevron = ivChevron
-        ivChevron.rotation = if (node.isExpanded) 90f else 0f
+        ivChevron.rotation = if (isExpanded) 90f else 0f
         layoutAdd.isVisible = showAdd
         tvRootName.text = node.name
         layoutChevron.setOnClickListener {
-            animateExpanded(!node.isExpanded)
+            animateExpanded(!isExpanded)
             onExpandClick(node)
         }
         layoutAdd.setOnClickListener {
@@ -119,7 +118,6 @@ internal class RootFolderItem(
         }
 
         isExpanded = expanded
-        node.isExpanded = expanded
     }
 }
 
