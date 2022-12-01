@@ -23,20 +23,23 @@ class FolderTreeView(
 
     fun set(devices: List<Path>, rootsWithFavs: Map<Path, List<Path>>) {
         val deviceNodes = buildDeviceNodes(devices, rootsWithFavs)
-        val expandedDevicesNodes = deviceNodes.toMutableList()
-        deviceNodes.forEach {
-            it.isExpanded = true
-            expandedDevicesNodes.addAll(
-                expandedDevicesNodes.indexOf(it) + 1,
-                it.children
-            )
+        if (nodes.isEmpty()) {
+            deviceNodes.forEachIndexed { index, node ->
+                if (node is DeviceNode) {
+                    node.isExpanded = true
+                    deviceNodes.addAll(
+                        index + 1,
+                        node.children
+                    )
+                }
+            }
         }
-        val restoredNodes = restoreExpandedState(expandedDevicesNodes)
-        set(restoredNodes)
+        val restoredNodes = restoreExpandedState(deviceNodes)
+        setNodes(restoredNodes)
     }
 
-    private fun set(nodes: List<FolderNode>) {
-        this.nodes = nodes.toMutableList()
+    private fun setNodes(newNodes: MutableList<FolderNode>) {
+        nodes = newNodes
         val items = nodes.map { node ->
             when (node) {
                 is DeviceNode -> DeviceFolderItem(node, ::onExpandClick)
@@ -55,7 +58,7 @@ class FolderTreeView(
 
     private fun restoreExpandedState(
         newNodes: MutableList<FolderNode>
-    ): List<FolderNode> {
+    ): MutableList<FolderNode> {
         val tmpNodes = mutableListOf<FolderNode>()
         newNodes.forEach { newNode ->
             tmpNodes.add(newNode)
@@ -79,25 +82,29 @@ class FolderTreeView(
     }
 
     private fun onExpandClick(node: FolderNode) {
-        if (node.isExpanded)
-            insertChildren(node)
-        else
-            removeChildrenCascade(node)
+        val actualNode = nodes.find { it.path == node.path }!!
 
-        set(nodes)
+        if (actualNode.isExpanded)
+            removeChildrenCascade(actualNode)
+        else
+            insertChildren(actualNode)
+
+        setNodes(nodes)
     }
 
     private fun insertChildren(parent: FolderNode) {
-        val parentPos = nodes.indexOf(parent)
         parent.isExpanded = true
+        val parentPos = nodes.indexOfFirst { it.path == parent.path }
         nodes.addAll(parentPos + 1, parent.children)
     }
 
     private fun removeChildrenCascade(parent: FolderNode) {
         parent.isExpanded = false
-        parent.children.forEach {
-            removeChildrenCascade(it)
-            nodes.remove(it)
+        parent.children.forEach { child ->
+            removeChildrenCascade(child)
+            nodes
+                .find { it.path == child.path }
+                ?.let { nodes.remove(it) }
         }
     }
 

@@ -8,7 +8,7 @@ import space.taran.arkfilepicker.ArkFiles.TAGS_STORAGE_FILE
 import space.taran.arkfilepicker.ArkFiles.THUMBNAILS_FOLDER
 import java.nio.file.Path
 
-object ArkFiles {
+internal object ArkFiles {
     const val ARK_FOLDER = ".ark"
     const val ROOTS_FILE = "roots"
     const val FAVORITES_FILE = "favorites"
@@ -17,9 +17,9 @@ object ArkFiles {
     const val THUMBNAILS_FOLDER = "thumbnails"
 }
 
-fun Path.arkFolder() = resolve(ARK_FOLDER)
-fun Path.arkRoots() = resolve(ROOTS_FILE)
-fun Path.arkFavorites() = resolve(FAVORITES_FILE)
-fun Path.arkTagsStorage() = resolve(TAGS_STORAGE_FILE)
-fun Path.arkPreviews() = resolve(PREVIEWS_FOLDER)
-fun Path.arkThumbnails() = resolve(THUMBNAILS_FOLDER)
+internal fun Path.arkFolder() = resolve(ARK_FOLDER)
+internal fun Path.arkRoots() = resolve(ROOTS_FILE)
+internal fun Path.arkFavorites() = resolve(FAVORITES_FILE)
+internal fun Path.arkTagsStorage() = resolve(TAGS_STORAGE_FILE)
+internal fun Path.arkPreviews() = resolve(PREVIEWS_FOLDER)
+internal fun Path.arkThumbnails() = resolve(THUMBNAILS_FOLDER)

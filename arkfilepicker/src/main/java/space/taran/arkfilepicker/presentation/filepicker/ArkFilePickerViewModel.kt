@@ -52,7 +52,6 @@ internal class ArkFilePickerViewModel(
     init {
         viewModelScope.launch {
             val rootsWithFavs = foldersRepo.provideFolders()
-            Log.d("FSFS", "$rootsWithFavs")
             intent {
                 reduce {
                     state.copy(rootsWithFavs = rootsWithFavs)
