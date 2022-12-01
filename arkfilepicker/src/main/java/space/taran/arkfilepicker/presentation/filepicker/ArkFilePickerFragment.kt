@@ -85,9 +85,6 @@ open class ArkFilePickerFragment :
         super.onViewCreated(view, savedInstanceState)
         initUI()
         initBackButtonListener()
-        lifecycleScope.launch {
-            FoldersRepo.instance.addRoot(Path("/storage/emulated/0/Ark"))
-        }
         viewModel.observe(this, ::render, ::handleSideEffect)
     }
 

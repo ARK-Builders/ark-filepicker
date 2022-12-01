@@ -13,6 +13,7 @@ import space.taran.arkfilepicker.FileUtils
 import space.taran.arkfilepicker.PartialResult
 import space.taran.arkfilepicker.arkFavorites
 import space.taran.arkfilepicker.arkFolder
+import space.taran.arkfilepicker.arkGlobal
 import space.taran.arkfilepicker.arkRoots
 import java.nio.file.Path
 import kotlin.io.path.Path
@@ -104,8 +105,8 @@ class FoldersRepo(private val appCtx: Context) {
     suspend fun addRoot(root: Path) = withContext(Dispatchers.IO) {
         folders = provideFolders() + mapOf(root to readFavorites(root))
 
-        val arkFolder = deviceRoot.arkFolder().createDirectories()
-        val rootsFile = arkFolder.arkRoots()
+        val arkGlobal = deviceRoot.arkGlobal().createDirectories()
+        val rootsFile = arkGlobal.arkRoots()
         val jsonRoots = JsonRoots(folders.keys.map { it.toString() })
         rootsFile.writeText(klaxon.toJsonString(jsonRoots))
     }
@@ -125,9 +126,9 @@ class FoldersRepo(private val appCtx: Context) {
     }
 
     private fun readRoots(): List<Path> {
-        val arkFolder = deviceRoot.arkFolder()
-        if (arkFolder.notExists()) return emptyList()
-        val rootsFile = arkFolder.arkRoots()
+        val arkGlobal = deviceRoot.arkGlobal()
+        if (arkGlobal.notExists()) return emptyList()
+        val rootsFile = arkGlobal.arkRoots()
 
         return try {
             val jsonRoots = klaxon.parse<JsonRoots>(rootsFile.toFile())
