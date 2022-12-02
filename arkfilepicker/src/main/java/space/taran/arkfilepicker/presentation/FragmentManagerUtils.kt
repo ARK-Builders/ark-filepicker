@@ -22,19 +22,3 @@ fun FragmentManager.onArkPathPicked(
         )
     }
 }
-
-fun FragmentManager.onArkFolderChange(
-    lifecycleOwner: LifecycleOwner,
-    listener: (Path) -> Unit
-) {
-    setFragmentResultListener(
-        ArkFilePickerFragment.FOLDER_CHANGED_REQUEST_KEY,
-        lifecycleOwner
-    ) { _, bundle ->
-        listener(
-            Path(
-                bundle.getString(ArkFilePickerFragment.FOLDER_CHANGED_FOLDER_BUNDLE_KEY)!!
-            )
-        )
-    }
-}

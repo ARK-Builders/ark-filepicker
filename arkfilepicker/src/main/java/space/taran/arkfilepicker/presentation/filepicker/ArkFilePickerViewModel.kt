@@ -35,7 +35,6 @@ internal sealed class FilePickerSideEffect {
     object DismissDialog : FilePickerSideEffect()
     object ToastAccessDenied : FilePickerSideEffect()
     class NotifyPathPicked(val path: Path) : FilePickerSideEffect()
-    class NotifyFolderChanged(val folder: Path) : FilePickerSideEffect()
 }
 
 internal class ArkFilePickerViewModel(
@@ -69,7 +68,6 @@ internal class ArkFilePickerViewModel(
                         files = formatChildren(path)
                     )
                 }
-                postSideEffect(FilePickerSideEffect.NotifyFolderChanged(path))
             } catch (e: Exception) {
                 postSideEffect(FilePickerSideEffect.ToastAccessDenied)
             }
@@ -91,8 +89,6 @@ internal class ArkFilePickerViewModel(
                 files = formatChildren(selectedDevice)
             )
         }
-
-        postSideEffect(FilePickerSideEffect.NotifyFolderChanged(selectedDevice))
     }
 
     fun onBackClick() = intent {
@@ -109,7 +105,6 @@ internal class ArkFilePickerViewModel(
                 files = formatChildren(parent)
             )
         }
-        postSideEffect(FilePickerSideEffect.NotifyFolderChanged(parent))
     }
 
     private fun onPathPicked(path: Path) = intent {

@@ -68,7 +68,8 @@ open class ArkFilePickerFragment :
     var showRoots by args<Boolean>()
     var pathPickedRequestKey by args<String>()
 
-    private val binding by viewBinding(ArkFilePickerHostFragmentBinding::bind)
+    var currentFolder: Path? = null
+    val binding by viewBinding(ArkFilePickerHostFragmentBinding::bind)
     private val viewModel by viewModels<ArkFilePickerViewModel> {
         ArkFilePickerViewModelFactory(
             FileUtils(requireContext().applicationContext),
@@ -79,7 +80,8 @@ open class ArkFilePickerFragment :
 
     private val pagesAdapter = ItemAdapter<GenericItem>()
 
-    open fun onFolderChanged(folder: Path) {}
+    open fun onFolderChanged(currentFolder: Path) {}
+    open fun onPick(pickedPath: Path) {}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -150,6 +152,13 @@ open class ArkFilePickerFragment :
         else
             state.currentDevice.last().toString()
 
+        if (state.currentPath.isDirectory()) {
+            if (state.currentPath != currentFolder) {
+                currentFolder = state.currentPath
+                onFolderChanged(currentFolder!!)
+            }
+        }
+
         tvDevice.text = deviceText
         if (state.currentPath == state.currentDevice)
             tvDevice.setTextColor(
@@ -186,18 +195,8 @@ open class ArkFilePickerFragment :
             accessDeniedStringId!!,
             Toast.LENGTH_SHORT
         ).show()
-        is FilePickerSideEffect.NotifyFolderChanged -> {
-            onFolderChanged(effect.folder)
-            setFragmentResult(
-                FOLDER_CHANGED_REQUEST_KEY,
-                Bundle().apply {
-                    putString(
-                        FOLDER_CHANGED_FOLDER_BUNDLE_KEY,
-                        effect.folder.toString()
-                    )
-                })
-        }
-        is FilePickerSideEffect.NotifyPathPicked ->
+        is FilePickerSideEffect.NotifyPathPicked -> {
+            onPick(effect.path)
             setFragmentResult(
                 pathPickedRequestKey ?: PATH_PICKED_REQUEST_KEY,
                 Bundle().apply {
@@ -206,6 +205,7 @@ open class ArkFilePickerFragment :
                         effect.path.toString()
                     )
                 })
+        }
     }
 
 
@@ -272,26 +272,27 @@ open class ArkFilePickerFragment :
         }
     }
 
+    fun setConfig(config: ArkFilePickerConfig) {
+        titleStringId = config.titleStringId
+        pickButtonStringId = config.pickButtonStringId
+        cancelButtonStringId = config.cancelButtonStringId
+        internalStorageStringId = config.internalStorageStringId
+        accessDeniedStringId = config.accessDeniedStringId
+        itemsPluralId = config.itemsPluralId
+        themeId = config.themeId
+        initialPath = config.initialPath?.toString()
+        showRoots = config.showRoots
+        pathPickedRequestKey = config.pathPickedRequestKey
+        mode = config.mode.ordinal
+    }
+
     companion object {
         const val PATH_PICKED_REQUEST_KEY = "arkFilePickerPathPicked"
         const val PATH_PICKED_PATH_BUNDLE_KEY = "arkFilePickerPathPickedPathKey"
-        const val FOLDER_CHANGED_REQUEST_KEY = "arkFilePickerFolderChanged"
-        const val FOLDER_CHANGED_FOLDER_BUNDLE_KEY =
-            "arkFilePickerFolderChangedFolderKey"
 
         fun newInstance(config: ArkFilePickerConfig) =
             ArkFilePickerFragment().apply {
-                titleStringId = config.titleStringId
-                pickButtonStringId = config.pickButtonStringId
-                cancelButtonStringId = config.cancelButtonStringId
-                internalStorageStringId = config.internalStorageStringId
-                accessDeniedStringId = config.accessDeniedStringId
-                itemsPluralId = config.itemsPluralId
-                themeId = config.themeId
-                initialPath = config.initialPath?.toString()
-                showRoots = config.showRoots
-                pathPickedRequestKey = config.pathPickedRequestKey
-                mode = config.mode.ordinal
+                setConfig(config)
             }
 
         private const val DIALOG_WIDTH = 300f
