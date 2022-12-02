@@ -67,6 +67,7 @@ open class ArkFilePickerFragment :
     var initialPath by args<String>()
     var showRoots by args<Boolean>()
     var pathPickedRequestKey by args<String>()
+    var rootsFirstPage by args<Boolean>()
 
     var currentFolder: Path? = null
     val binding by viewBinding(ArkFilePickerHostFragmentBinding::bind)
@@ -122,22 +123,19 @@ open class ArkFilePickerFragment :
             }
             vp.setDragSensitivity(10)
         }
-        val fragment = this@ArkFilePickerFragment
-        val pages = if (showRoots!!)
-            listOf(
-                RootsPage(fragment, viewModel),
-                FilesPage(fragment, viewModel, itemsPluralId!!)
-            )
-        else
-            listOf(
-                FilesPage(fragment, viewModel, itemsPluralId!!)
-            )
+        val pages = getPages()
 
         pagesAdapter.set(pages)
+        val tabsTitle = resources
+            .getStringArray(R.array.ark_file_picker_tabs)
+            .apply {
+                if (!rootsFirstPage!!)
+                    reverse()
+            }
+
         if (showRoots!!) {
             TabLayoutMediator(tabs, vp) { tab, pos ->
-                tab.text =
-                    resources.getStringArray(R.array.ark_file_picker_tabs)[pos]
+                tab.text = tabsTitle[pos]
             }.attach()
         } else {
             tabs.isVisible = false
@@ -272,6 +270,25 @@ open class ArkFilePickerFragment :
         }
     }
 
+    private fun getPages() = if (showRoots!!) {
+        if (rootsFirstPage!!) {
+            listOf(
+                RootsPage(this, viewModel),
+                FilesPage(this, viewModel, itemsPluralId!!)
+            )
+        } else {
+            listOf(
+                FilesPage(this, viewModel, itemsPluralId!!),
+                RootsPage(this, viewModel)
+            )
+        }
+    } else {
+        listOf(
+            FilesPage(this, viewModel, itemsPluralId!!)
+        )
+    }
+
+
     fun setConfig(config: ArkFilePickerConfig) {
         titleStringId = config.titleStringId
         pickButtonStringId = config.pickButtonStringId
@@ -283,6 +300,7 @@ open class ArkFilePickerFragment :
         initialPath = config.initialPath?.toString()
         showRoots = config.showRoots
         pathPickedRequestKey = config.pathPickedRequestKey
+        rootsFirstPage = config.rootsFirstPage
         mode = config.mode.ordinal
     }
 

@@ -46,7 +46,8 @@ class MainActivity : AppCompatActivity() {
     private fun getFilePickerConfig() = ArkFilePickerConfig(
         mode = ArkFilePickerMode.FOLDER,
         titleStringId = R.string.file_picker_title,
-        showRoots = true
+        showRoots = true,
+        rootsFirstPage = false
     )
 
     private fun resolvePermissions() {
