@@ -16,7 +16,6 @@ import com.google.android.material.button.MaterialButton
 import space.taran.arkfilepicker.presentation.filepicker.ArkFilePickerMode
 import space.taran.arkfilepicker.ArkFilePickerConfig
 import space.taran.arkfilepicker.presentation.filepicker.ArkFilePickerFragment
-import space.taran.arkfilepicker.presentation.onArkFolderChange
 import space.taran.arkfilepicker.presentation.onArkPathPicked
 
 class MainActivity : AppCompatActivity() {
@@ -28,14 +27,18 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.onArkPathPicked(this) { path ->
             Toast.makeText(this, "Path picked $path", Toast.LENGTH_SHORT).show()
         }
-        supportFragmentManager.onArkFolderChange(this) { path ->
-
-        }
 
         findViewById<MaterialButton>(R.id.btn_open).setOnClickListener {
             resolvePermissions()
             ArkFilePickerFragment
                 .newInstance(getFilePickerConfig())
+                .show(supportFragmentManager, null)
+        }
+
+        findViewById<MaterialButton>(R.id.btn_root_picker).setOnClickListener {
+            resolvePermissions()
+            RootFavPickerDialog
+                .newInstance()
                 .show(supportFragmentManager, null)
         }
     }
