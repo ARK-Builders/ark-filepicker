@@ -103,6 +103,7 @@ class FoldersRepo(private val appCtx: Context) {
         }
 
     suspend fun addRoot(root: Path) = withContext(Dispatchers.IO) {
+        root.arkFolder().createDirectories()
         folders = provideFolders() + mapOf(root to readFavorites(root))
 
         val arkGlobal = deviceRoot.arkGlobal().createDirectories()
