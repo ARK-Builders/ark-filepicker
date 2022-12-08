@@ -38,19 +38,28 @@
             android:gravity="start|center_vertical"
             android:maxLines="1"
             android:ellipsize="end"
-            app:layout_constraintEnd_toStartOf="@id/tv_hint"
+            app:layout_constraintEnd_toStartOf="@id/iv_card"
             android:textColor="@color/ark_file_picker_white"
             android:textStyle="bold"
             tools:text="Caribou" />
-
-        <TextView
-            android:id="@+id/tv_hint"
+        
+        <ImageView
+            android:id="@+id/iv_card"
+            android:src="@drawable/ark_file_picker_ic_sd_card"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="start|center_vertical"
-            android:textColor="@color/ark_file_picker_white"
             android:layout_marginHorizontal="6dp"
-            android:text="@string/ark_file_picker_item_device_type" />
+            app:tint="@color/ark_file_picker_white" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_hint"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:gravity="start|center_vertical"-->
+<!--            android:textColor="@color/ark_file_picker_white"-->
+<!--            android:layout_marginHorizontal="6dp"-->
+<!--            android:text="@string/ark_file_picker_item_device_type" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

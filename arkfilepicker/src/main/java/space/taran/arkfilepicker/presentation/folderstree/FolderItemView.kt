@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.isVisible
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
+import space.taran.arkfilepicker.INTERNAL_STORAGE
+import space.taran.arkfilepicker.R
 import space.taran.arkfilepicker.databinding.ArkFilePickerItemDeviceBinding
 import space.taran.arkfilepicker.databinding.ArkFilePickerItemFavoriteBinding
 import space.taran.arkfilepicker.databinding.ArkFilePickerItemRootBinding
@@ -40,8 +42,12 @@ internal class DeviceFolderItem(
         binding: ArkFilePickerItemDeviceBinding,
         payloads: List<Any>
     ) = with(binding) {
+        val context = root.context
         ivChevron.rotation = if (isExpanded) 90f else 0f
-        tvDeviceName.text = node.name
+        tvDeviceName.text =
+            if (node.path == INTERNAL_STORAGE)
+                context.getString(R.string.ark_file_picker_internal_storage)
+            else node.name
         root.setOnClickListener {
             animateExpanded(!isExpanded)
             onExpandClick(node)
