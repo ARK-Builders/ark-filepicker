@@ -44,22 +44,22 @@
             android:textColor="@color/ark_file_picker_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/layout_chevron"
-            app:layout_constraintEnd_toStartOf="@id/tv_hint"
+            app:layout_constraintEnd_toStartOf="@id/iv_root"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Caribou" />
 
-        <TextView
-            android:id="@+id/tv_hint"
+        <ImageView
+            android:id="@+id/iv_root"
+            android:src="@drawable/ark_file_picker_ic_folder"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="6dp"
-            android:text="@string/ark_file_picker_item_root_type"
-            android:textSize="16sp"
-            android:textColor="@color/ark_file_picker_white"
+            app:tint="@color/ark_file_picker_white"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_root_name"
             app:layout_constraintEnd_toStartOf="@id/layout_add"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"  />
 
 
         <RelativeLayout

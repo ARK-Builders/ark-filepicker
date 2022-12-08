@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_hint"
+            app:layout_constraintEnd_toStartOf="@id/iv_star"
             android:textSize="16sp"
             android:layout_marginStart="16dp"
             android:maxLines="1"
@@ -26,14 +26,14 @@
             android:textStyle="bold"
             tools:text="Caribou" />
 
-        <TextView
-            android:id="@+id/tv_hint"
+        <ImageView
+            android:id="@+id/iv_star"
+            android:src="@drawable/ark_file_picker_ic_star"
             android:layout_width="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_marginHorizontal="6dp"
-            android:textColor="@color/ark_file_picker_white"
-            android:text="@string/ark_file_picker_item_favorite_type" />
+            app:tint="@color/ark_file_picker_white"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
