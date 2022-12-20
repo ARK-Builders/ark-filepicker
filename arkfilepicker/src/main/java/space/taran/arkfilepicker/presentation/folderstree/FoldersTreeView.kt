@@ -12,6 +12,7 @@ class FolderTreeView(
     private val rv: RecyclerView,
     private val onNavigateClick: (FolderNode) -> Unit,
     private val onAddClick: (FolderNode) -> Unit,
+    private val onForgetClick: (FolderNode) -> Unit,
     private val showAdd: Boolean
 ) {
     private val nodeAdapter = ItemAdapter<GenericItem>()
@@ -48,9 +49,10 @@ class FolderTreeView(
                     onNavigateClick,
                     ::onExpandClick,
                     onAddClick,
+                    onForgetClick,
                     showAdd
                 )
-                is FavoriteNode -> FavoriteFolderItem(node, onNavigateClick)
+                is FavoriteNode -> FavoriteFolderItem(node, onNavigateClick, onForgetClick)
             }
         }
         FastAdapterDiffUtil[nodeAdapter] = items

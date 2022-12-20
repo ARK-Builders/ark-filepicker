@@ -72,6 +72,7 @@ internal class RootFolderItem(
     private val onNavigateClick: (RootNode) -> Unit,
     private val onExpandClick: (RootNode) -> Unit,
     private val onAddClick: (RootNode) -> Unit,
+    private val onForgetClick: (RootNode) -> Unit,
     private val showAdd: Boolean
 ) : AbstractBindingItem<ArkFilePickerItemRootBinding>() {
     override val type = 1
@@ -112,6 +113,9 @@ internal class RootFolderItem(
         root.setOnClickListener {
             onNavigateClick(node)
         }
+        layoutForget.setOnClickListener {
+            onForgetClick(node)
+        }
     }
 
     private fun animateExpanded(expanded: Boolean) {
@@ -129,7 +133,8 @@ internal class RootFolderItem(
 
 internal class FavoriteFolderItem(
     private val node: FavoriteNode,
-    private val onNavigateClick: (FavoriteNode) -> Unit
+    private val onNavigateClick: (FavoriteNode) -> Unit,
+    private val onForgetClick: (FavoriteNode) -> Unit
 ) : AbstractBindingItem<ArkFilePickerItemFavoriteBinding>() {
     override val type = 2
     override var identifier: Long
@@ -149,6 +154,9 @@ internal class FavoriteFolderItem(
         tvFavName.text = node.name
         root.setOnClickListener {
             onNavigateClick(node)
+        }
+        layoutForget.setOnClickListener {
+            onForgetClick(node)
         }
     }
 }
