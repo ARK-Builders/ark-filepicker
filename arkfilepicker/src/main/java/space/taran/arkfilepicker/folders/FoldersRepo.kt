@@ -225,9 +225,11 @@ class FoldersRepo(private val appCtx: Context) {
 
     companion object {
         private const val LOG_TAG = "FoldersRepo"
-        const val FORGET_ROOT = "forget root"
-        const val FORGET_FAVORITE = "forget favorite"
-        const val DELETE_FOLDER = "delete folder"
+        const val FORGET_ROOT_KEY = "forget root key"
+        const val FORGET_FAVORITE_KEY = "forget favorite key"
+        const val ROOT_KEY = "root key"
+        const val FAVORITE_KEY = "favorite key"
+        const val DELETE_FOLDER_KEY = "delete folder key"
         lateinit var instance: FoldersRepo
 
         fun init(appCtx: Context) {
