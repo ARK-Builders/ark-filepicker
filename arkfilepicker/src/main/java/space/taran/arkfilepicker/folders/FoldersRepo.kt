@@ -119,9 +119,7 @@ class FoldersRepo(private val appCtx: Context) {
     suspend fun forgetRoot(root: Path) =
         withContext(Dispatchers.IO) {
             if (folders.containsKey(root)) {
-                val mFolders = folders.toMutableMap()
-                mFolders.remove(root)
-                folders = mFolders
+                folders = folders.minus(root)
                 writeRoots()
             }
         }
@@ -130,19 +128,31 @@ class FoldersRepo(private val appCtx: Context) {
         withContext(Dispatchers.IO) {
             if (folders.containsKey(root)) {
                 forgetRoot(root)
-                deleteFilesRecursively(root)
+                Log.d(
+                    "folders repo",
+                    "$root forgotten successfully"
+                )
+                if (deleteFilesRecursively(root)) {
+                    Log.d(
+                        "folders repo",
+                        "$root deleted successfully"
+                    )
+                } else
+                    Log.d(
+                        "folders repo",
+                        "failed to delete $root"
+                    )
             }
         }
 
     suspend fun forgetFavorite(root: Path, favorite: Path) =
         withContext(Dispatchers.IO) {
             if (folders.containsKey(root)) {
-                val favorites = folders[root]
+                var favorites = folders[root]
                 val favRelative = root.relativize(favorite)
                 if (favorites != null && favorites.contains(favRelative)) {
-                    val mFavorites = favorites.toMutableList()
-                    mFavorites.remove(favRelative)
-                    folders = folders.plus(mapOf(root to mFavorites))
+                    favorites = favorites.minus(favRelative)
+                    folders = folders.plus(mapOf(root to favorites))
                     writeFavorites(root)
                 }
             }
@@ -151,20 +161,24 @@ class FoldersRepo(private val appCtx: Context) {
     suspend fun deleteFavorite(root: Path, favorite: Path) =
         withContext(Dispatchers.IO) {
             forgetFavorite(root, favorite)
-            deleteFilesRecursively(favorite)
+            Log.d(
+                "folders repo",
+                "$favorite forgotten successfully"
+            )
+            if (deleteFilesRecursively(favorite)) {
+                Log.d(
+                    "folders repo",
+                    "$favorite deleted successfully"
+                )
+            } else
+                Log.d(
+                    "folders repo",
+                    " failed to delete $favorite"
+                )
         }
 
-    private fun deleteFilesRecursively(path: Path) {
-        val files = Files.list(path)
-        if (files != null) {
-            files.forEach {
-                if (it.isDirectory())
-                    deleteFilesRecursively(path)
-                else Files.delete(it)
-            }
-        }
-        Files.delete(path)
-    }
+    private fun deleteFilesRecursively(path: Path) =
+        path.toFile().deleteRecursively()
 
     private fun readRoots(): List<Path> {
         val arkGlobal = deviceRoot.arkGlobal()
