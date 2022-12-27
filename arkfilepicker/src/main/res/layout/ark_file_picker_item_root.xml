@@ -58,28 +58,11 @@
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_root_name"
-            app:layout_constraintEnd_toStartOf="@id/layout_add"
+            app:layout_constraintEnd_toStartOf="@id/layout_more_options"
             app:layout_constraintTop_toTopOf="parent"  />
 
-
         <RelativeLayout
-            android:id="@+id/layout_add"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="?selectableItemBackground"
-            app:layout_constraintEnd_toStartOf="@id/layout_forget">
-
-            <ImageView
-                android:id="@+id/iv_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_folder_action_add"
-                app:tint="@color/ark_file_picker_white" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/layout_forget"
+            android:id="@+id/layout_more_options"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -87,12 +70,12 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
-                android:id="@+id/iv_forget"
+                android:id="@+id/iv_more_options"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_delete"
+                android:src="@drawable/ic_more_vert"
                 app:tint="@color/ark_file_picker_white" />
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
