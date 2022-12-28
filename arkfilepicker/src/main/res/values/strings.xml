@@ -7,8 +7,8 @@
     <string name="ark_file_picker_item_device_type">[device]</string>
     <string name="ark_file_picker_item_favorite_type">[favorite]</string>
     <string name="ark_file_picker_item_root_type">[root]</string>
-    <string name="ark_file_picker_add_favorite">Add favorite folder</string>
-    <string name="ark_file_picker_forget_root">Forget root folder</string>
+    <string name="ark_file_picker_add_favorite">Add favorite</string>
+    <string name="ark_file_picker_forget_root">Forget root</string>
     <plurals name="ark_file_picker_items">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
