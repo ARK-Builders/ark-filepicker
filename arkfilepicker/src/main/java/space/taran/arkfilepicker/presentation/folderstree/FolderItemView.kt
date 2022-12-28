@@ -104,10 +104,14 @@ internal class RootFolderItem(
     ) = with(binding) {
         this@RootFolderItem.chevron = ivChevron
         ivChevron.rotation = if (isExpanded) 90f else 0f
+        layoutAdd.isVisible = showAdd
         tvRootName.text = node.name
         layoutChevron.setOnClickListener {
             animateExpanded(!isExpanded)
             onExpandClick(node)
+        }
+        layoutAdd.setOnClickListener {
+            onAddClick(node)
         }
         root.setOnClickListener {
             onNavigateClick(node)
