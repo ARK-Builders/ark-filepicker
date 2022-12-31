@@ -119,15 +119,10 @@ class FoldersRepo(private val appCtx: Context) {
     suspend fun forgetRoot(root: Path) =
         withContext(Dispatchers.IO) {
             if (folders.containsKey(root)) {
-                Log.d(
-                    "Forget root",
-                    root.toString()
-                )
-                Log.d(
-                    "Forget root",
-                    folders.keys.toString()
-                )
-                folders = folders.minus(root)
+                val folders = this@FoldersRepo.folders
+                    .toMutableMap()
+                folders.remove(root)
+                this@FoldersRepo.folders = folders
                 writeRoots()
             }
         }
