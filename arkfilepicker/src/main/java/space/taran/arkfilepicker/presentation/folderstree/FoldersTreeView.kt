@@ -13,7 +13,7 @@ class FolderTreeView(
     private val onNavigateClick: (FolderNode) -> Unit,
     private val onAddClick: (FolderNode) -> Unit,
     private val onForgetClick: (FolderNode) -> Unit,
-    private val showAdd: Boolean
+    private val showOptions: Boolean
 ) {
     private val nodeAdapter = ItemAdapter<GenericItem>()
     private var nodes = mutableListOf<FolderNode>()
@@ -50,7 +50,7 @@ class FolderTreeView(
                     ::onExpandClick,
                     onAddClick,
                     onForgetClick,
-                    showAdd
+                    showOptions
                 )
                 is FavoriteNode -> FavoriteFolderItem(node, onNavigateClick, onForgetClick)
             }

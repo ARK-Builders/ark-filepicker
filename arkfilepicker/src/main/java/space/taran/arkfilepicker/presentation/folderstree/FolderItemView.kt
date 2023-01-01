@@ -76,7 +76,7 @@ internal class RootFolderItem(
     private val onExpandClick: (RootNode) -> Unit,
     private val onAddClick: (RootNode) -> Unit,
     private val onForgetClick: (RootNode) -> Unit,
-    private val showAdd: Boolean
+    private val showOptions: Boolean
 ) : AbstractBindingItem<ArkFilePickerItemRootBinding>() {
     override val type = 1
     override var identifier: Long
@@ -112,27 +112,29 @@ internal class RootFolderItem(
         root.setOnClickListener {
             onNavigateClick(node)
         }
-        layoutMoreOptions.setOnClickListener {
-            val lifecycleOwner = it.findViewTreeLifecycleOwner()
-            val balloon = Balloon.Builder(it.context)
-                .setLayout(R.layout.root_options)
-                .setBackgroundColorResource(R.color.ark_file_picker_white)
-                .setArrowSize(0)
-                .setLifecycleOwner(lifecycleOwner)
-                .build()
-            balloon.showAsDropDown(it)
-            val addRoot: View = balloon.getContentView()
-                .findViewById(R.id.layout_add)
-            val forgetRoot: View = balloon.getContentView()
-                .findViewById(R.id.layout_forget)
-            addRoot.isVisible = showAdd
-            addRoot.setOnClickListener {
-                onAddClick(node)
-                balloon.dismiss()
-            }
-            forgetRoot.setOnClickListener {
-                onForgetClick(node)
-                balloon.dismiss()
+        with(layoutMoreOptions) {
+            isVisible = showOptions
+            setOnClickListener {
+                val lifecycleOwner = it.findViewTreeLifecycleOwner()
+                val balloon = Balloon.Builder(it.context)
+                    .setLayout(R.layout.root_options)
+                    .setBackgroundColorResource(R.color.ark_file_picker_white)
+                    .setArrowSize(0)
+                    .setLifecycleOwner(lifecycleOwner)
+                    .build()
+                balloon.showAsDropDown(it)
+                val addRoot: View = balloon.getContentView()
+                    .findViewById(R.id.layout_add)
+                val forgetRoot: View = balloon.getContentView()
+                    .findViewById(R.id.layout_forget)
+                addRoot.setOnClickListener {
+                    onAddClick(node)
+                    balloon.dismiss()
+                }
+                forgetRoot.setOnClickListener {
+                    onForgetClick(node)
+                    balloon.dismiss()
+                }
             }
         }
     }

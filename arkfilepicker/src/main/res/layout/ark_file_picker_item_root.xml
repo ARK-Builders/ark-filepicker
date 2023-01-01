@@ -63,9 +63,10 @@
 
         <RelativeLayout
             android:id="@+id/layout_more_options"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:visibility="gone"
             android:background="?selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -74,8 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/ic_more_vert"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:tint="@color/ark_file_picker_white" />
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
