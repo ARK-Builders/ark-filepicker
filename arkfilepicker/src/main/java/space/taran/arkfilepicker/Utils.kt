@@ -3,6 +3,7 @@ package space.taran.arkfilepicker
 import android.content.Context
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import java.nio.file.Path
@@ -78,4 +79,10 @@ internal fun ViewPager2.setDragSensitivity(f: Int) {
     touchSlopField.isAccessible = true
     val touchSlop = touchSlopField.get(recyclerView) as Int
     touchSlopField.set(recyclerView, touchSlop*f)
+}
+
+fun View.setMargin(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
+    val params = layoutParams as ViewGroup.MarginLayoutParams
+    params.setMargins(left, top, right, bottom)
+    layoutParams = params
 }

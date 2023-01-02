@@ -52,7 +52,12 @@ class FolderTreeView(
                     onForgetClick,
                     showOptions
                 )
-                is FavoriteNode -> FavoriteFolderItem(node, onNavigateClick, onForgetClick)
+                is FavoriteNode -> FavoriteFolderItem(
+                    node,
+                    onNavigateClick,
+                    onForgetClick,
+                    showOptions
+                )
             }
         }
         FastAdapterDiffUtil[nodeAdapter] = items

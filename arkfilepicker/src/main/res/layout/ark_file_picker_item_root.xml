@@ -53,8 +53,8 @@
             android:src="@drawable/ark_file_picker_ic_folder"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="6dp"
             app:tint="@color/ark_file_picker_white"
+            android:layout_marginHorizontal="6dp"
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_root_name"
@@ -63,7 +63,7 @@
 
         <RelativeLayout
             android:id="@+id/layout_more_options"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:visibility="gone"
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_more_vert"
+                android:src="@drawable/ark_file_picker_ic_more_vert"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:tint="@color/ark_file_picker_white" />
         </RelativeLayout>

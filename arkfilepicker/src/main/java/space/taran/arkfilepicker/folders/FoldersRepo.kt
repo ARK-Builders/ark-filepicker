@@ -132,17 +132,17 @@ class FoldersRepo(private val appCtx: Context) {
             if (folders.containsKey(root)) {
                 forgetRoot(root)
                 Log.d(
-                    "folders repo",
+                    LOG_TAG,
                     "$root forgotten successfully"
                 )
                 if (deleteFilesRecursively(root)) {
                     Log.d(
-                        "folders repo",
+                        LOG_TAG,
                         "$root deleted successfully"
                     )
                 } else
                     Log.d(
-                        "folders repo",
+                        LOG_TAG,
                         "failed to delete $root"
                     )
             }
@@ -165,17 +165,17 @@ class FoldersRepo(private val appCtx: Context) {
         withContext(Dispatchers.IO) {
             forgetFavorite(root, favorite)
             Log.d(
-                "folders repo",
+                LOG_TAG,
                 "$favorite forgotten successfully"
             )
             if (deleteFilesRecursively(favorite)) {
                 Log.d(
-                    "folders repo",
+                    LOG_TAG,
                     "$favorite deleted successfully"
                 )
             } else
                 Log.d(
-                    "folders repo",
+                    LOG_TAG,
                     " failed to delete $favorite"
                 )
         }

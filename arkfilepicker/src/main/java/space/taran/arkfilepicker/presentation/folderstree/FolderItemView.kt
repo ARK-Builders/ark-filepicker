@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import androidx.core.view.marginEnd
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import com.skydoves.balloon.Balloon
@@ -14,6 +15,7 @@ import space.taran.arkfilepicker.R
 import space.taran.arkfilepicker.databinding.ArkFilePickerItemDeviceBinding
 import space.taran.arkfilepicker.databinding.ArkFilePickerItemFavoriteBinding
 import space.taran.arkfilepicker.databinding.ArkFilePickerItemRootBinding
+import space.taran.arkfilepicker.setMargin
 
 internal class DeviceFolderItem(
     private val node: DeviceNode,
@@ -112,12 +114,14 @@ internal class RootFolderItem(
         root.setOnClickListener {
             onNavigateClick(node)
         }
+        if (showOptions)
+            ivRoot.setMargin(right = 0)
         with(layoutMoreOptions) {
             isVisible = showOptions
             setOnClickListener {
                 val lifecycleOwner = it.findViewTreeLifecycleOwner()
                 val balloon = Balloon.Builder(it.context)
-                    .setLayout(R.layout.root_options)
+                    .setLayout(R.layout.ark_file_picker_root_options)
                     .setBackgroundColorResource(R.color.ark_file_picker_white)
                     .setArrowSize(0)
                     .setLifecycleOwner(lifecycleOwner)
@@ -155,7 +159,8 @@ internal class RootFolderItem(
 internal class FavoriteFolderItem(
     private val node: FavoriteNode,
     private val onNavigateClick: (FavoriteNode) -> Unit,
-    private val onForgetClick: (FavoriteNode) -> Unit
+    private val onForgetClick: (FavoriteNode) -> Unit,
+    private val showOptions: Boolean
 ) : AbstractBindingItem<ArkFilePickerItemFavoriteBinding>() {
     override val type = 2
     override var identifier: Long
@@ -176,10 +181,13 @@ internal class FavoriteFolderItem(
         root.setOnClickListener {
             onNavigateClick(node)
         }
+        if (showOptions)
+            ivStar.setMargin(right = 0)
+        layoutMoreOptions.isVisible = showOptions
         layoutMoreOptions.setOnClickListener {
             val lifecycleOwner = it.findViewTreeLifecycleOwner()
             val balloon = Balloon.Builder(it.context)
-                .setLayout(R.layout.favorite_options)
+                .setLayout(R.layout.ark_file_picker_favorite_options)
                 .setBackgroundColorResource(R.color.ark_file_picker_white)
                 .setLifecycleOwner(lifecycleOwner)
                 .setArrowSize(0)
