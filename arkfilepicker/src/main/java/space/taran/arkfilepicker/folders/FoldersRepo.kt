@@ -15,12 +15,9 @@ import space.taran.arkfilepicker.arkFavorites
 import space.taran.arkfilepicker.arkFolder
 import space.taran.arkfilepicker.arkGlobal
 import space.taran.arkfilepicker.arkRoots
+import java.nio.file.Files
 import java.nio.file.Path
-import kotlin.io.path.Path
-import kotlin.io.path.createDirectories
-import kotlin.io.path.exists
-import kotlin.io.path.notExists
-import kotlin.io.path.writeText
+import kotlin.io.path.*
 
 typealias Folders = Map<Path, List<Path>>
 
@@ -106,10 +103,7 @@ class FoldersRepo(private val appCtx: Context) {
         root.arkFolder().createDirectories()
         folders = provideFolders() + mapOf(root to readFavorites(root))
 
-        val arkGlobal = deviceRoot.arkGlobal().createDirectories()
-        val rootsFile = arkGlobal.arkRoots()
-        val jsonRoots = JsonRoots(folders.keys.map { it.toString() })
-        rootsFile.writeText(klaxon.toJsonString(jsonRoots))
+        writeRoots()
     }
 
     suspend fun addFavorite(root: Path, fav: Path) = withContext(Dispatchers.IO) {
@@ -119,12 +113,72 @@ class FoldersRepo(private val appCtx: Context) {
         } ?: listOf(fav)
         folders = mutFolders
 
-        val arkFolder = root.arkFolder()
-        require(arkFolder.exists()) { "Ark folder must exist" }
-        val favsFile = arkFolder.arkFavorites()
-        val jsonFavs = JsonFavorites(folders[root]!!.map(Path::toString))
-        favsFile.writeText(klaxon.toJsonString(jsonFavs))
+        writeFavorites(root)
     }
+
+    suspend fun forgetRoot(root: Path) =
+        withContext(Dispatchers.IO) {
+            if (folders.containsKey(root)) {
+                folders = folders.minus(root)
+                writeRoots()
+            }
+        }
+
+    suspend fun deleteRoot(root: Path) =
+        withContext(Dispatchers.IO) {
+            if (folders.containsKey(root)) {
+                forgetRoot(root)
+                Log.d(
+                    "folders repo",
+                    "$root forgotten successfully"
+                )
+                if (deleteFilesRecursively(root)) {
+                    Log.d(
+                        "folders repo",
+                        "$root deleted successfully"
+                    )
+                } else
+                    Log.d(
+                        "folders repo",
+                        "failed to delete $root"
+                    )
+            }
+        }
+
+    suspend fun forgetFavorite(root: Path, favorite: Path) =
+        withContext(Dispatchers.IO) {
+            if (folders.containsKey(root)) {
+                var favorites = folders[root]
+                val favRelative = root.relativize(favorite)
+                if (favorites != null && favorites.contains(favRelative)) {
+                    favorites = favorites.minus(favRelative)
+                    folders = folders.plus(mapOf(root to favorites))
+                    writeFavorites(root)
+                }
+            }
+        }
+
+    suspend fun deleteFavorite(root: Path, favorite: Path) =
+        withContext(Dispatchers.IO) {
+            forgetFavorite(root, favorite)
+            Log.d(
+                "folders repo",
+                "$favorite forgotten successfully"
+            )
+            if (deleteFilesRecursively(favorite)) {
+                Log.d(
+                    "folders repo",
+                    "$favorite deleted successfully"
+                )
+            } else
+                Log.d(
+                    "folders repo",
+                    " failed to delete $favorite"
+                )
+        }
+
+    private fun deleteFilesRecursively(path: Path) =
+        path.toFile().deleteRecursively()
 
     private fun readRoots(): List<Path> {
         val arkGlobal = deviceRoot.arkGlobal()
@@ -139,6 +193,13 @@ class FoldersRepo(private val appCtx: Context) {
         }
     }
 
+    private fun writeRoots() {
+        val arkGlobal = deviceRoot.arkGlobal().createDirectories()
+        val rootsFile = arkGlobal.arkRoots()
+        val jsonRoots = JsonRoots(folders.keys.map { it.toString() })
+        rootsFile.writeText(klaxon.toJsonString(jsonRoots))
+    }
+
     private fun readFavorites(root: Path): List<Path> {
         val arkFolder = root.arkFolder()
         require(arkFolder.exists()) { "Ark folder must exist" }
@@ -150,6 +211,14 @@ class FoldersRepo(private val appCtx: Context) {
         } catch (e: Exception) {
             emptyList()
         }
+    }
+
+    private fun writeFavorites(root: Path) {
+        val arkFolder = root.arkFolder()
+        require(arkFolder.exists()) { "Ark folder must exist" }
+        val favsFile = arkFolder.arkFavorites()
+        val jsonFavs = JsonFavorites(folders[root]!!.map(Path::toString))
+        favsFile.writeText(klaxon.toJsonString(jsonFavs))
     }
 
     private fun checkFavorites(
@@ -170,6 +239,11 @@ class FoldersRepo(private val appCtx: Context) {
 
     companion object {
         private const val LOG_TAG = "FoldersRepo"
+        const val FORGET_ROOT_KEY = "forget root key"
+        const val FORGET_FAVORITE_KEY = "forget favorite key"
+        const val ROOT_KEY = "root key"
+        const val FAVORITE_KEY = "favorite key"
+        const val DELETE_FOLDER_KEY = "delete folder key"
         lateinit var instance: FoldersRepo
 
         fun init(appCtx: Context) {

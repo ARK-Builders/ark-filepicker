@@ -433,6 +433,7 @@ internal class RootsPage(
             rvFiles,
             onNavigateClick = { node -> viewModel.onItemClick(node.path) },
             onAddClick = {},
+            onForgetClick = {},
             showAdd = false
         )
         viewModel.observe(fragment, ::render)
