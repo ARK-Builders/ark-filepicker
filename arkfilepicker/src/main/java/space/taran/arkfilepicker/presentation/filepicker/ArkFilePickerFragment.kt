@@ -434,7 +434,7 @@ internal class RootsPage(
             onNavigateClick = { node -> viewModel.onItemClick(node.path) },
             onAddClick = {},
             onForgetClick = {},
-            showAdd = false
+            showOptions = false
         )
         viewModel.observe(fragment, ::render)
     }

@@ -34,25 +34,25 @@
             android:layout_marginHorizontal="6dp"
             app:tint="@color/ark_file_picker_white"
             android:background="@android:color/transparent"
-            app:layout_constraintEnd_toStartOf="@id/layout_forget" />
+            app:layout_constraintEnd_toStartOf="@id/layout_more_options" />
 
         <RelativeLayout
-            android:id="@+id/layout_forget"
-            android:layout_width="50dp"
+            android:id="@+id/layout_more_options"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:visibility="gone"
             android:background="?selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
-                android:id="@+id/iv_forget"
+                android:id="@+id/iv_more_options"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_delete"
+                android:src="@drawable/ark_file_picker_ic_more_vert"
                 app:tint="@color/ark_file_picker_white" />
         </RelativeLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

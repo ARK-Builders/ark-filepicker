@@ -2,15 +2,19 @@ package space.taran.arkfilepicker.presentation.folderstree
 
 import android.animation.ValueAnimator
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
+import com.skydoves.balloon.Balloon
 import space.taran.arkfilepicker.INTERNAL_STORAGE
 import space.taran.arkfilepicker.R
 import space.taran.arkfilepicker.databinding.ArkFilePickerItemDeviceBinding
 import space.taran.arkfilepicker.databinding.ArkFilePickerItemFavoriteBinding
 import space.taran.arkfilepicker.databinding.ArkFilePickerItemRootBinding
+import space.taran.arkfilepicker.setMargin
 
 internal class DeviceFolderItem(
     private val node: DeviceNode,
@@ -73,7 +77,7 @@ internal class RootFolderItem(
     private val onExpandClick: (RootNode) -> Unit,
     private val onAddClick: (RootNode) -> Unit,
     private val onForgetClick: (RootNode) -> Unit,
-    private val showAdd: Boolean
+    private val showOptions: Boolean
 ) : AbstractBindingItem<ArkFilePickerItemRootBinding>() {
     override val type = 1
     override var identifier: Long
@@ -101,20 +105,40 @@ internal class RootFolderItem(
     ) = with(binding) {
         this@RootFolderItem.chevron = ivChevron
         ivChevron.rotation = if (isExpanded) 90f else 0f
-        layoutAdd.isVisible = showAdd
         tvRootName.text = node.name
         layoutChevron.setOnClickListener {
             animateExpanded(!isExpanded)
             onExpandClick(node)
         }
-        layoutAdd.setOnClickListener {
-            onAddClick(node)
-        }
         root.setOnClickListener {
             onNavigateClick(node)
         }
-        layoutForget.setOnClickListener {
-            onForgetClick(node)
+        if (showOptions)
+            ivRoot.setMargin(right = 0)
+        with(layoutMoreOptions) {
+            isVisible = showOptions
+            setOnClickListener {
+                val lifecycleOwner = it.findViewTreeLifecycleOwner()
+                val balloon = Balloon.Builder(it.context)
+                    .setLayout(R.layout.ark_file_picker_root_options)
+                    .setBackgroundColorResource(R.color.ark_file_picker_white)
+                    .setArrowSize(0)
+                    .setLifecycleOwner(lifecycleOwner)
+                    .build()
+                balloon.showAsDropDown(it)
+                val addRoot: View = balloon.getContentView()
+                    .findViewById(R.id.layout_add)
+                val forgetRoot: View = balloon.getContentView()
+                    .findViewById(R.id.layout_forget)
+                addRoot.setOnClickListener {
+                    onAddClick(node)
+                    balloon.dismiss()
+                }
+                forgetRoot.setOnClickListener {
+                    onForgetClick(node)
+                    balloon.dismiss()
+                }
+            }
         }
     }
 
@@ -134,7 +158,8 @@ internal class RootFolderItem(
 internal class FavoriteFolderItem(
     private val node: FavoriteNode,
     private val onNavigateClick: (FavoriteNode) -> Unit,
-    private val onForgetClick: (FavoriteNode) -> Unit
+    private val onForgetClick: (FavoriteNode) -> Unit,
+    private val showOptions: Boolean
 ) : AbstractBindingItem<ArkFilePickerItemFavoriteBinding>() {
     override val type = 2
     override var identifier: Long
@@ -155,8 +180,24 @@ internal class FavoriteFolderItem(
         root.setOnClickListener {
             onNavigateClick(node)
         }
-        layoutForget.setOnClickListener {
-            onForgetClick(node)
+        if (showOptions)
+            ivStar.setMargin(right = 0)
+        layoutMoreOptions.isVisible = showOptions
+        layoutMoreOptions.setOnClickListener {
+            val lifecycleOwner = it.findViewTreeLifecycleOwner()
+            val balloon = Balloon.Builder(it.context)
+                .setLayout(R.layout.ark_file_picker_favorite_options)
+                .setBackgroundColorResource(R.color.ark_file_picker_white)
+                .setLifecycleOwner(lifecycleOwner)
+                .setArrowSize(0)
+                .build()
+            val forgetFavoriteBtn: View = balloon.getContentView()
+                .findViewById(R.id.layout_forget)
+            balloon.showAsDropDown(it)
+            forgetFavoriteBtn.setOnClickListener {
+                onForgetClick(node)
+                balloon.dismiss()
+            }
         }
     }
 }

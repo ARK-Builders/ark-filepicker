@@ -15,7 +15,6 @@ import space.taran.arkfilepicker.arkFavorites
 import space.taran.arkfilepicker.arkFolder
 import space.taran.arkfilepicker.arkGlobal
 import space.taran.arkfilepicker.arkRoots
-import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.*
 
@@ -119,7 +118,10 @@ class FoldersRepo(private val appCtx: Context) {
     suspend fun forgetRoot(root: Path) =
         withContext(Dispatchers.IO) {
             if (folders.containsKey(root)) {
-                folders = folders.minus(root)
+                val folders = this@FoldersRepo.folders
+                    .toMutableMap()
+                folders.remove(root)
+                this@FoldersRepo.folders = folders
                 writeRoots()
             }
         }
@@ -129,17 +131,17 @@ class FoldersRepo(private val appCtx: Context) {
             if (folders.containsKey(root)) {
                 forgetRoot(root)
                 Log.d(
-                    "folders repo",
+                    LOG_TAG,
                     "$root forgotten successfully"
                 )
                 if (deleteFilesRecursively(root)) {
                     Log.d(
-                        "folders repo",
+                        LOG_TAG,
                         "$root deleted successfully"
                     )
                 } else
                     Log.d(
-                        "folders repo",
+                        LOG_TAG,
                         "failed to delete $root"
                     )
             }
@@ -162,17 +164,17 @@ class FoldersRepo(private val appCtx: Context) {
         withContext(Dispatchers.IO) {
             forgetFavorite(root, favorite)
             Log.d(
-                "folders repo",
+                LOG_TAG,
                 "$favorite forgotten successfully"
             )
             if (deleteFilesRecursively(favorite)) {
                 Log.d(
-                    "folders repo",
+                    LOG_TAG,
                     "$favorite deleted successfully"
                 )
             } else
                 Log.d(
-                    "folders repo",
+                    LOG_TAG,
                     " failed to delete $favorite"
                 )
         }
