@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.isVisible
-import androidx.core.view.marginEnd
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import com.skydoves.balloon.Balloon
