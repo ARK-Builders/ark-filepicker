@@ -54,6 +54,5 @@
                 android:src="@drawable/ark_file_picker_ic_more_vert"
                 app:tint="@color/ark_file_picker_white" />
         </RelativeLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

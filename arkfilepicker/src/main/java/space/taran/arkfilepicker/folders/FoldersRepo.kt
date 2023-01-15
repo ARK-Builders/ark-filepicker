@@ -15,7 +15,6 @@ import space.taran.arkfilepicker.arkFavorites
 import space.taran.arkfilepicker.arkFolder
 import space.taran.arkfilepicker.arkGlobal
 import space.taran.arkfilepicker.arkRoots
-import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.*
 
