@@ -3,6 +3,7 @@ package space.taran.arkfilepicker.presentation.filepicker
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -28,6 +29,7 @@ import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.orbitmvi.orbit.viewmodel.observe
 import space.taran.arkfilepicker.ArkFilePickerConfig
 import space.taran.arkfilepicker.presentation.DevicesPopup
@@ -206,7 +208,6 @@ open class ArkFilePickerFragment :
         }
     }
 
-
     private fun displayPath(state: FilePickerState) = binding.apply {
         layoutPath.removeViews(1, layoutPath.childCount - 1)
         val pathWithoutDevice =
@@ -310,7 +311,11 @@ open class ArkFilePickerFragment :
 
         fun newInstance(config: ArkFilePickerConfig) =
             ArkFilePickerFragment().apply {
-                setConfig(config)
+                runBlocking {
+                    val roots = FoldersRepo.instance.provideFolders()
+                    setConfig(config)
+                    showRoots = config.showRoots && roots.isNotEmpty()
+                }
             }
 
         private const val DIALOG_WIDTH = 300f

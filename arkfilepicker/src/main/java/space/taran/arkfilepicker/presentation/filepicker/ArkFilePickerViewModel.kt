@@ -12,6 +12,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import space.taran.arkfilepicker.FileUtils
+import space.taran.arkfilepicker.folders.ArkRootsScan
 import space.taran.arkfilepicker.listChildren
 import space.taran.arkfilepicker.folders.FoldersRepo
 import java.nio.file.Path
@@ -29,6 +30,7 @@ internal data class FilePickerState(
     val rootsWithFavs: Map<Path, List<Path>>
 ) {
     val currentDevice get() = devices[selectedDevicePos]
+    val arkRootsAvailable get() = rootsWithFavs.isNotEmpty()
 }
 
 internal sealed class FilePickerSideEffect {
@@ -44,6 +46,8 @@ internal class ArkFilePickerViewModel(
 ): ViewModel(), ContainerHost<FilePickerState, FilePickerSideEffect> {
 
     private val foldersRepo = FoldersRepo.instance
+
+    private val arkRootsScanner = ArkRootsScan()
 
     override val container: Container<FilePickerState, FilePickerSideEffect> =
         container(initialState())
@@ -104,6 +108,12 @@ internal class ArkFilePickerViewModel(
                 currentPath = parent,
                 files = formatChildren(parent)
             )
+        }
+    }
+
+    private fun onScanArkRoots() {
+        viewModelScope.launch {
+
         }
     }
 
