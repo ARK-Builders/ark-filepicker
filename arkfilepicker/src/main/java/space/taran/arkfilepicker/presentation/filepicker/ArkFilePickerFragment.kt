@@ -88,7 +88,11 @@ open class ArkFilePickerFragment :
         super.onViewCreated(view, savedInstanceState)
         initUI()
         initBackButtonListener()
-        viewModel.observe(this, ::render, ::handleSideEffect)
+        viewModel.observe(
+            this,
+            state = ::render,
+            sideEffect = ::handleSideEffect
+        )
     }
 
     override fun onResume() {
@@ -193,6 +197,7 @@ open class ArkFilePickerFragment :
             accessDeniedStringId!!,
             Toast.LENGTH_SHORT
         ).show()
+
         is FilePickerSideEffect.NotifyPathPicked -> {
             onPick(effect.path)
             setFragmentResult(
@@ -338,7 +343,7 @@ internal class FilesPage(
         payloads: List<Any>
     ) = with(binding) {
         rvFiles.adapter = FastAdapter.with(filesAdapter)
-        viewModel.observe(fragment, ::render)
+        viewModel.observe(fragment, state = ::render)
     }
 
     private fun render(state: FilePickerState) {
@@ -436,7 +441,7 @@ internal class RootsPage(
             onForgetClick = {},
             showOptions = false
         )
-        viewModel.observe(fragment, ::render)
+        viewModel.observe(fragment, state = ::render)
     }
 
     private fun render(state: FilePickerState) {
