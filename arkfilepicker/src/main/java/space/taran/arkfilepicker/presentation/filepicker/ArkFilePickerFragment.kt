@@ -64,7 +64,7 @@ open class ArkFilePickerFragment :
     var themeId by args<Int>()
     var accessDeniedStringId by args<Int>()
     var mode by args<Int>()
-    var initialPath by args<String>()
+    var initialPath by args<String?>()
     var showRoots by args<Boolean>()
     var pathPickedRequestKey by args<String>()
     var rootsFirstPage by args<Boolean>()
