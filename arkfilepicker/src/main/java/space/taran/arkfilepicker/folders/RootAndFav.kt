@@ -1,4 +1,4 @@
-package space.taran.arkfilepicker.folders
+package dev.arkbuilders.arkfilepicker.folders
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

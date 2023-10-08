@@ -1,12 +1,12 @@
-package space.taran.arkfilepicker
+package dev.arkbuilders.arkfilepicker
 
-import space.taran.arkfilepicker.ArkFiles.ARK_FOLDER
-import space.taran.arkfilepicker.ArkFiles.FAVORITES_FILE
-import space.taran.arkfilepicker.ArkFiles.GLOBAL_FOLDER
-import space.taran.arkfilepicker.ArkFiles.PREVIEWS_FOLDER
-import space.taran.arkfilepicker.ArkFiles.ROOTS_FILE
-import space.taran.arkfilepicker.ArkFiles.TAGS_STORAGE_FILE
-import space.taran.arkfilepicker.ArkFiles.THUMBNAILS_FOLDER
+import dev.arkbuilders.arkfilepicker.ArkFiles.ARK_FOLDER
+import dev.arkbuilders.arkfilepicker.ArkFiles.FAVORITES_FILE
+import dev.arkbuilders.arkfilepicker.ArkFiles.GLOBAL_FOLDER
+import dev.arkbuilders.arkfilepicker.ArkFiles.PREVIEWS_FOLDER
+import dev.arkbuilders.arkfilepicker.ArkFiles.ROOTS_FILE
+import dev.arkbuilders.arkfilepicker.ArkFiles.TAGS_STORAGE_FILE
+import dev.arkbuilders.arkfilepicker.ArkFiles.THUMBNAILS_FOLDER
 import java.nio.file.Path
 
 internal object ArkFiles {

@@ -1,4 +1,4 @@
-package space.taran.arkfilepicker.presentation.filepicker
+package dev.arkbuilders.arkfilepicker.presentation.filepicker
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -11,9 +11,9 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import space.taran.arkfilepicker.FileUtils
-import space.taran.arkfilepicker.listChildren
-import space.taran.arkfilepicker.folders.FoldersRepo
+import dev.arkbuilders.arkfilepicker.FileUtils
+import dev.arkbuilders.arkfilepicker.listChildren
+import dev.arkbuilders.arkfilepicker.folders.FoldersRepo
 import java.nio.file.Path
 import kotlin.io.path.isDirectory
 

@@ -1,6 +1,6 @@
 @file:Suppress("BlockingMethodInNonBlockingContext")
 
-package space.taran.arkfilepicker.folders
+package dev.arkbuilders.arkfilepicker.folders
 
 import android.content.Context
 import android.util.Log
@@ -9,12 +9,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import space.taran.arkfilepicker.FileUtils
-import space.taran.arkfilepicker.PartialResult
-import space.taran.arkfilepicker.arkFavorites
-import space.taran.arkfilepicker.arkFolder
-import space.taran.arkfilepicker.arkGlobal
-import space.taran.arkfilepicker.arkRoots
+import dev.arkbuilders.arkfilepicker.FileUtils
+import dev.arkbuilders.arkfilepicker.PartialResult
+import dev.arkbuilders.arkfilepicker.arkFavorites
+import dev.arkbuilders.arkfilepicker.arkFolder
+import dev.arkbuilders.arkfilepicker.arkGlobal
+import dev.arkbuilders.arkfilepicker.arkRoots
 import java.nio.file.Path
 import kotlin.io.path.*
 

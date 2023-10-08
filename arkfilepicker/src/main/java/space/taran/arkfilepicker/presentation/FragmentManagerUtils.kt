@@ -1,8 +1,8 @@
-package space.taran.arkfilepicker.presentation
+package dev.arkbuilders.arkfilepicker.presentation
 
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import space.taran.arkfilepicker.presentation.filepicker.ArkFilePickerFragment
+import dev.arkbuilders.arkfilepicker.presentation.filepicker.ArkFilePickerFragment
 import java.nio.file.Path
 import kotlin.io.path.Path
 

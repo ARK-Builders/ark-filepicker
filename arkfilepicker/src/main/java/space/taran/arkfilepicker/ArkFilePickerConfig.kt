@@ -1,9 +1,9 @@
-package space.taran.arkfilepicker
+package dev.arkbuilders.arkfilepicker
 
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
-import space.taran.arkfilepicker.presentation.filepicker.ArkFilePickerMode
+import dev.arkbuilders.arkfilepicker.presentation.filepicker.ArkFilePickerMode
 import java.nio.file.Path
 
 class ArkFilePickerConfig(
