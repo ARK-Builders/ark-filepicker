@@ -1,4 +1,4 @@
-package space.taran.arkfilepicker.sample
+package dev.arkbuilders.arkfilepicker.sample
 
 import org.junit.Test
 

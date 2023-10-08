@@ -1,4 +1,4 @@
-package space.taran.arkfilepicker.presentation.folderstree
+package dev.arkbuilders.arkfilepicker.presentation.folderstree
 
 import android.animation.ValueAnimator
 import android.view.LayoutInflater
@@ -9,12 +9,12 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import com.skydoves.balloon.Balloon
-import space.taran.arkfilepicker.INTERNAL_STORAGE
-import space.taran.arkfilepicker.R
-import space.taran.arkfilepicker.databinding.ArkFilePickerItemDeviceBinding
-import space.taran.arkfilepicker.databinding.ArkFilePickerItemFavoriteBinding
-import space.taran.arkfilepicker.databinding.ArkFilePickerItemRootBinding
-import space.taran.arkfilepicker.setMargin
+import dev.arkbuilders.arkfilepicker.INTERNAL_STORAGE
+import dev.arkbuilders.arkfilepicker.R
+import dev.arkbuilders.arkfilepicker.databinding.ArkFilePickerItemDeviceBinding
+import dev.arkbuilders.arkfilepicker.databinding.ArkFilePickerItemFavoriteBinding
+import dev.arkbuilders.arkfilepicker.databinding.ArkFilePickerItemRootBinding
+import dev.arkbuilders.arkfilepicker.setMargin
 
 internal class DeviceFolderItem(
     private val node: DeviceNode,

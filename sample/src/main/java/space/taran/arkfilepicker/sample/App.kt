@@ -1,7 +1,7 @@
-package space.taran.arkfilepicker.sample
+package dev.arkbuilders.arkfilepicker.sample
 
 import android.app.Application
-import space.taran.arkfilepicker.folders.FoldersRepo
+import dev.arkbuilders.arkfilepicker.folders.FoldersRepo
 
 class App: Application() {
 

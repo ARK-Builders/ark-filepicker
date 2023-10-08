@@ -1,4 +1,4 @@
-package space.taran.arkfilepicker
+package dev.arkbuilders.arkfilepicker
 
 import android.content.Context
 import android.util.TypedValue

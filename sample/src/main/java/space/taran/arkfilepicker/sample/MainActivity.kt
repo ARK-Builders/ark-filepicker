@@ -1,4 +1,4 @@
-package space.taran.arkfilepicker.sample
+package dev.arkbuilders.arkfilepicker.sample
 
 import android.Manifest
 import android.content.Intent
@@ -13,10 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
-import space.taran.arkfilepicker.presentation.filepicker.ArkFilePickerMode
-import space.taran.arkfilepicker.ArkFilePickerConfig
-import space.taran.arkfilepicker.presentation.filepicker.ArkFilePickerFragment
-import space.taran.arkfilepicker.presentation.onArkPathPicked
+import dev.arkbuilders.arkfilepicker.presentation.filepicker.ArkFilePickerMode
+import dev.arkbuilders.arkfilepicker.ArkFilePickerConfig
+import dev.arkbuilders.arkfilepicker.presentation.filepicker.ArkFilePickerFragment
+import dev.arkbuilders.arkfilepicker.presentation.onArkPathPicked
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

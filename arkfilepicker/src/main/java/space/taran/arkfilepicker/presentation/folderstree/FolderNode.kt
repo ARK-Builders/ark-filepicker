@@ -1,4 +1,4 @@
-package space.taran.arkfilepicker.presentation.folderstree
+package dev.arkbuilders.arkfilepicker.presentation.folderstree
 
 import java.nio.file.Path
 
