@@ -1,7 +1,32 @@
 # ARK-FilePicker
 FilePicker component, shared between several ARK apps
 
-# Usage
+## Importing the library
+**Github packages with credentials is a workaround since JCenter is shutdown**
+
+Add the following script to project's `build.gradle`:
+
+```groovy
+allprojects {
+    repositories{
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/ARK-Builders/ark-filepicker"
+            credentials {
+                username = "token"
+                password = "\u0037\u0066\u0066\u0036\u0030\u0039\u0033\u0066\u0032\u0037\u0033\u0036\u0033\u0037\u0064\u0036\u0037\u0066\u0038\u0030\u0034\u0039\u0062\u0030\u0039\u0038\u0039\u0038\u0066\u0034\u0066\u0034\u0031\u0064\u0062\u0033\u0064\u0033\u0038\u0065"
+            }
+        }
+    }
+}
+```
+
+And add `arklib-android` dependency to app module's `build.gradle`:
+```groovy
+implementation 'dev.arkbuilders:arkfilepicker:0.1.0'
+```
+
+## Usage
 
 ```kotlin
 // Define config
@@ -24,31 +49,4 @@ supportFragmentManager.onArkFolderChange(lifecycleOwner = this) { path ->
 ArkFilePickerFragment
     .newInstance(config)
     .show(supportFragmentManager, null)
-```
-
-# Install
-Add the jitpack.io repository in the project build.gradle or settings.gradle(v7+)
-```kotlin
-allprojects {
-    ..
-    repositories {
-        ..
-        maven { url 'https://jitpack.io' }
-    }
-}
-
-or 
-
-dependencyResolutionManagement {
-    ..
-    repositories {
-        ..
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-
-And then add the file picker dependency to your module
-```kotlin
-implementation 'com.github.ark-builders:ark-filepicker:main-SNAPSHOT'
 ```
