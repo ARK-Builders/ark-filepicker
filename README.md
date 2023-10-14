@@ -21,7 +21,7 @@ allprojects {
 }
 ```
 
-And add `arklib-android` dependency to app module's `build.gradle`:
+And add `arkfilepicker` dependency to app module's `build.gradle`:
 ```groovy
 implementation 'dev.arkbuilders:arkfilepicker:0.1.1'
 ```
