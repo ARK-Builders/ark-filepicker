@@ -26,7 +26,7 @@ internal class DeviceFolderItem(
         set(value) {}
 
     private var isExpanded = node.isExpanded
-    private lateinit var animator: ValueAnimator
+    private var animator: ValueAnimator? = null
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -60,11 +60,11 @@ internal class DeviceFolderItem(
 
     private fun animateExpanded(expanded: Boolean) {
         if (expanded) {
-            animator.setFloatValues(0F, 90F)
-            animator.start()
+            animator?.setFloatValues(0F, 90F)
+            animator?.start()
         } else {
-            animator.setFloatValues(90F, 00F)
-            animator.start()
+            animator?.setFloatValues(90F, 00F)
+            animator?.start()
         }
 
         isExpanded = expanded
