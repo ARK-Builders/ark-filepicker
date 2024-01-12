@@ -41,10 +41,17 @@ class MainActivity : AppCompatActivity() {
                 .newInstance()
                 .show(supportFragmentManager, null)
         }
+
+        findViewById<MaterialButton>(R.id.btn_open_file_mode).setOnClickListener {
+            resolvePermissions()
+            ArkFilePickerFragment
+                .newInstance(getFilePickerConfig(mode = ArkFilePickerMode.FILE))
+                .show(supportFragmentManager, null)
+        }
     }
 
-    private fun getFilePickerConfig() = ArkFilePickerConfig(
-        mode = ArkFilePickerMode.FOLDER,
+    private fun getFilePickerConfig(mode: ArkFilePickerMode? = null) = ArkFilePickerConfig(
+        mode = mode ?: ArkFilePickerMode.FOLDER,
         titleStringId = R.string.file_picker_title,
         showRoots = true,
         rootsFirstPage = false

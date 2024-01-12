@@ -3,4 +3,12 @@
         <item name="android:windowEnterAnimation">@anim/ark_file_picker_fade_in</item>
         <item name="android:windowExitAnimation">@anim/ark_file_pickerfade_out</item>
     </style>
+
+    <style name="ArkFileDialogTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_dialog_title</item>
+        <item name="android:textColor">@color/ark_file_picker_black</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

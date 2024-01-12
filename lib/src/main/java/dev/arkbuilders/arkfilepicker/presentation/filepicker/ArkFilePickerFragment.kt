@@ -1,5 +1,6 @@
 package dev.arkbuilders.arkfilepicker.presentation.filepicker
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -17,7 +18,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -27,13 +27,13 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.viewmodel.observe
 import dev.arkbuilders.arkfilepicker.ArkFilePickerConfig
 import dev.arkbuilders.arkfilepicker.presentation.DevicesPopup
 import dev.arkbuilders.arkfilepicker.FileUtils
 import dev.arkbuilders.arkfilepicker.INTERNAL_STORAGE
 import dev.arkbuilders.arkfilepicker.R
+import dev.arkbuilders.arkfilepicker.databinding.ArkFilePickerDialogNewFolderBinding
 import dev.arkbuilders.arkfilepicker.databinding.ArkFilePickerHostFragmentBinding
 import dev.arkbuilders.arkfilepicker.databinding.ArkFilePickerItemFileBinding
 import dev.arkbuilders.arkfilepicker.databinding.ArkFilePickerItemFilesRootsPageBinding
@@ -43,8 +43,8 @@ import dev.arkbuilders.arkfilepicker.iconForExtension
 import dev.arkbuilders.arkfilepicker.listChildren
 import dev.arkbuilders.arkfilepicker.presentation.args
 import dev.arkbuilders.arkfilepicker.presentation.folderstree.FolderTreeView
-import dev.arkbuilders.arkfilepicker.folders.FoldersRepo
 import dev.arkbuilders.arkfilepicker.setDragSensitivity
+import java.io.File
 import java.lang.Exception
 import java.nio.file.Path
 import kotlin.io.path.Path
@@ -144,6 +144,43 @@ open class ArkFilePickerFragment :
         } else {
             tabs.isVisible = false
         }
+
+        if (mode == ArkFilePickerMode.FOLDER.ordinal) {
+            binding.ivNewFolder.visibility = View.VISIBLE
+            binding.ivNewFolder.setOnClickListener {
+                showCreateFolderDialog()
+            }
+        } else {
+            binding.ivNewFolder.visibility = View.GONE
+        }
+
+    }
+
+    private fun showCreateFolderDialog() {
+        val builder = AlertDialog.Builder(activity, android.R.style.ThemeOverlay_Material_Dialog_Alert)
+        builder.setTitle(R.string.ark_file_picker_new_folder)
+        val binding = ArkFilePickerDialogNewFolderBinding.inflate(layoutInflater)
+        builder.setView(binding.root)
+        builder.setPositiveButton(android.R.string.ok, null)
+
+        builder.setNegativeButton(android.R.string.cancel) { _, _ -> }
+        val dialog = builder.create()
+        dialog.show()
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            val newFolder = File(currentFolder.toString(), binding.editTextFolderName.text.toString())
+            if (newFolder.exists()) {
+                binding.inputLayoutFolderName.error = getString(R.string.ark_file_picker_folder_existing)
+                return@setOnClickListener
+            }
+            val isSuccess = newFolder.mkdirs()
+
+            if (isSuccess) {
+                //Reload current files tree
+                currentFolder?.let { viewModel.onItemClick(it) }
+                dialog.dismiss()
+            }
+        }
+
     }
 
     private fun render(state: FilePickerState) = binding.apply {

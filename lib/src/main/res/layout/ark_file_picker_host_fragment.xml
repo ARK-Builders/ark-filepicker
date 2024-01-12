@@ -9,13 +9,9 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pick"
-        android:textAlignment="center"
-        android:padding="8dp"
-        android:textColor="@color/ark_file_picker_black"
-        android:textSize="18sp" />
+        android:text="@string/ark_file_picker_pick_title"
+        style="@style/ArkFileDialogTitle"
+        android:padding="@dimen/padding_text_dialog_title"/>
 
     <HorizontalScrollView
         android:id="@+id/scroll_path"
@@ -39,6 +35,16 @@
 
         </LinearLayout>
     </HorizontalScrollView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ark_file_picker_ic_new_folder"
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/iv_new_folder"
+        app:tint="@color/ark_file_picker_gray"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"

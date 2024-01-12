@@ -78,7 +78,9 @@ internal class ArkFilePickerViewModel(
             onPathPicked(path)
     }
 
-    fun onPickBtnClick() = intent { onPathPicked(state.currentPath) }
+    fun onPickBtnClick() = intent {
+        onPathPicked(state.currentPath)
+    }
 
     fun onDeviceSelected(selectedDevicePos: Int) = intent {
         val selectedDevice = state.devices[selectedDevicePos]
